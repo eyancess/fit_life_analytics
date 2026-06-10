@@ -214,8 +214,8 @@ El dataset incluirá errores controlados para simular situaciones reales:
 
 * valores nulos
 * registros duplicados
-* edades fuera de rango
 * duraciones anómalas
+* Problemas de formato
 * pagos incorrectos
 * categorías incompletas
 
