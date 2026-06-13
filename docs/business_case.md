@@ -2,8 +2,7 @@
 
 ## 1. Antecedentes y justificación
 
-FitLife es una cadena de gimnasios en Estados Unidos con presencia en varias
-ciudades. No es una cadena de lujo, es el tipo de gimnasio de barrio al que va la
+FitLife es una cadena de gimnasios en Madrid. No es una cadena de lujo, es el tipo de gimnasio de barrio al que va la
 gente a entrenar a diario, con precios asequibles y una base de socios amplia.
 
 El problema que tiene FitLife es uno muy común en este tipo de negocio: cada año
@@ -42,9 +41,7 @@ siguiendo principios de Data Warehousing y Business Intelligence.
 | Filas                | 4.000 socios              |
 | Columnas originales  | 14 variables              |
 | Valores nulos        | 0 (dataset limpio)        |
-| Variable target      | Churn (0 = activo, 1 = baja) |
-| Distribución target  | 73,5% activos / 26,5% bajas |
-| Periodo simulado     | Vista snapshot mensual    |
+| Variable target      | Churn (0 = activo, 1 = baja) | 
 
 **Variables disponibles:**
 
@@ -89,26 +86,20 @@ Las hipótesis están fundamentadas en el análisis preliminar del dataset.
 
 - **H1:** Los socios con contrato mensual tienen una tasa de abandono muy superior
   a los de contrato semestral o anual.
-  > *Dato real: mensual 42,3% / semestral 12,5% / anual 2,4%*
 
 - **H2:** La caída de frecuencia de visitas en el mes actual respecto a la media
   histórica es el predictor más potente de abandono.
-  > *Dato real: correlación con churn de -0,596, la más alta del dataset*
 
 - **H3:** Los socios captados por recomendación de amigos tienen menor tasa de
   abandono que los captados por otros canales.
-  > *Dato real: 15,8% churn con promo_friends vs. 31,3% sin ella*
 
 - **H4:** Los socios que asisten a clases grupales tienen menor probabilidad de
   abandono que los que solo usan la sala libre.
-  > *Dato real: 17,3% churn con clases grupales vs. 33,0% sin ellas*
 
 - **H5:** Los socios cuya pareja también está inscrita presentan mayor retención.
-  > *Dato real: 19,4% churn con pareja socia vs. 33,3% sin ella*
 
 - **H6:** Los socios más nuevos (menos de 6 meses de antigüedad) tienen mayor
   riesgo de abandono que los veteranos.
-  > *Dato real: correlación entre Lifetime y Churn de -0,438*
 
 ---
 
@@ -136,9 +127,6 @@ Las hipótesis están fundamentadas en el análisis preliminar del dataset.
 | ROC AUC   | Calidad general del modelo entre 0 y 1                                   |
 | F1-Score  | Equilibrio entre Recall y Precisión                                      |
 
-> **Nota:** En este proyecto se prioriza el Recall sobre la Precisión. Es peor
-> no detectar a un socio que se va (falso negativo) que activar una retención
-> innecesaria (falso positivo).
 
 ---
 
