@@ -1,0 +1,4 @@
+id_contrato,tipo_contrato,duracion_meses,nivel_compromiso
+1,mensual,1,bajo
+2,semestral,6,medio
+3,anual,12,alto

@@ -34,6 +34,11 @@ binaria (`Churn`: 0 = activo, 1 = baja). Para este proyecto, esa tabla plana se
 descompondrá en un modelo estrella con tablas de dimensiones y una tabla de hechos,
 siguiendo principios de Data Warehousing y Business Intelligence.
 
+**Nota técnica:** el CSV presenta un bug de exportación en las columnas de 
+frecuencia y gasto que desplaza los decimales. Los valores absolutos difieren 
+del dataset original de Kaggle, pero las relaciones entre variables y las 
+correlaciones con el Churn son válidas para el análisis.
+
 **Características del dataset:**
 
 | Característica       | Valor                     |
@@ -136,13 +141,18 @@ Las hipótesis están fundamentadas en el análisis preliminar del dataset.
 |--------|---------------------------------------------------------------------|------------------------------------|
 | Fase 1 | Carga y exploración inicial del dataset                             | Python · Pandas                    |
 | Fase 2 | Limpieza: tipos de datos, outliers, codificaciones, enriquecimiento | Python · Pandas                    |
-| Fase 3 | Construcción del modelo estrella: tablas dim y fact                 | Python · SQLite                    |
-| Fase 4 | SQL: queries analíticas y cálculo de KPIs de negocio                | SQL · SQLite                       |
+| Fase 3 | Construcción del modelo estrella: tablas dim y fact                 | Python · MySQL                     |
+| Fase 4 | SQL: queries analíticas y cálculo de KPIs de negocio                | SQL · MySQL · DBeaver               |
 | Fase 5 | Análisis exploratorio: gráficos y validación de hipótesis           | Python · Matplotlib · Seaborn      |
 | Fase 6 | Modelado ML: Regresión Logística, Random Forest y XGBoost           | Python · Scikit-learn · XGBoost    |
 | Fase 7 | Interpretabilidad del modelo: variables más relevantes              | Python · SHAP                      |
 | Fase 8 | Dashboard ejecutivo y operacional                                   | Power BI                           |
 | Fase 9 | Documentación y presentación final                                  | GitHub · PDF                       |
+
+**Nota técnica (cambio de motor SQL):** las Fases 3 y 4 se planteaban inicialmente sobre
+SQLite. Finalmente se implementaron en **MySQL**, gestionado con **DBeaver** como cliente
+SQL, por ser un entorno más cercano al que se usa en un puesto real de Data Analyst y por
+permitir una conexión directa y reutilizable desde Power BI en la Fase 8.
 
 ---
 

@@ -1,0 +1,5 @@
+id_captacion,viene_por_promo,telefono_registrado,perfil_captacion
+1,0,0,organico_sin_contacto
+2,0,1,organico_contactado
+3,1,0,referido_sin_contacto
+4,1,1,referido_contactado

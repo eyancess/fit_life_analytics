@@ -201,9 +201,9 @@ en Power BI y el modelo predictivo de Machine Learning.
 | id_actividad         | integer | Group_visits + freq (FK dim_actividad)| Perfil de actividad                            | FK dim_actividad          | 5            |
 | lifetime             | integer | Lifetime                              | Antigüedad del socio en meses                  | 0 - 31                    | 7            |
 | meses_fin_contrato   | float   | Month_to_end_contract                 | Meses restantes hasta fin de contrato          | 1 - 12                    | 3.0          |
-| gasto_adicional      | float   | Avg_additional_charges_total          | Gasto adicional medio acumulado                | 0,15 - 552,59             | 146,94       |
-| frecuencia_total     | float   | Avg_class_frequency_total             | Frecuencia media histórica (visitas/semana)    | 0,0 - 6,02                | 1,88         |
-| frecuencia_mes       | float   | Avg_class_frequency_current_month     | Frecuencia media del mes actual (visitas/semana)| 0,0 - 6,15               | 1,77         |
+| gasto_adicional      | float   | Avg_additional_charges_total          | Gasto adicional medio acumulado                | 0,15 - 986,95             | 146,94       |
+| frecuencia_total     | float   | Avg_class_frequency_total             | Frecuencia media histórica (visitas/semana)    | 0,0 - 602,37              | 1,88         |
+| frecuencia_mes       | float   | Avg_class_frequency_current_month     | Frecuencia media del mes actual (visitas/semana)| 0,0 - 453,43             | 1,77         |
 | variacion_frecuencia | float   | Calculado                             | Diferencia entre frecuencia actual e histórica | Puede ser negativa        | -0,11        |
 | segmento_lifetime    | string  | Calculado                             | Segmento de antigüedad del socio               | nuevo, intermedio, veterano| intermedio  |
 | segmento_riesgo      | string  | Calculado (post-modelo)               | Nivel de riesgo de abandono                    | bajo, medio, alto         | medio        |
