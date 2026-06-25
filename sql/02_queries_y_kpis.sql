@@ -1,21 +1,3 @@
--- =========================================================
--- FitLife Analytics — Modelo Estrella
--- Script 2: Queries analíticas y KPIs de negocio
--- =========================================================
--- Cómo usar este script:
--- Antes de ejecutar nada de aquí, asegúrate de haber importado
--- los 5 CSV en sus tablas correspondientes (Import Data en DBeaver).
---
--- Para ejecutar UNA query: pon el cursor dentro de ella y pulsa
--- Ctrl+Enter (o Cmd+Enter en Mac). No ejecutes todo el script de
--- golpe — ve query por query y haz capturas de cada resultado
--- para tu informe final.
--- =========================================================
-
--- En PostgreSQL no existe la instrucción USE. Asegúrate de que tu
--- conexión en DBeaver está apuntando a la base de datos
--- fitlife_analytics antes de ejecutar este script.
-
 -- ---------------------------------------------------------
 -- QUERY 1 — Tasa de abandono por tipo de contrato
 -- Verifica la Hipótesis H1 (mensual abandona mucho más que el resto)
@@ -48,13 +30,6 @@ ORDER BY tasa_abandono_pct ASC;
 -- ---------------------------------------------------------
 -- QUERY 3 — Abandono por asistencia a clases y antigüedad
 -- Verifica la Hipótesis H4 (clases grupales reducen el abandono)
---
--- NOTA: esta query se ha reformulado. La versión original cruzaba
--- asistencia a clases con tendencia de frecuencia de visitas, pero
--- esa columna se eliminó por el bug de datos de Avg_class_frequency_*
--- (ver business_case.md). Se cruza en su lugar con segmento_lifetime,
--- que sigue siendo 100% fiable y aporta una lectura igualmente útil:
--- ¿las clases grupales retienen más incluso entre los socios nuevos?
 -- ---------------------------------------------------------
 SELECT
     da.asiste_clases_grp,
@@ -83,12 +58,6 @@ ORDER BY ds.grupo_edad, ds.genero;
 
 -- ---------------------------------------------------------
 -- QUERY 5 — Segmentación de socios activos por riesgo
--- Usa CASE WHEN para crear una regla de negocio simple
---
--- NOTA: reformulada. La versión original usaba variacion_frecuencia
--- (eliminada por el bug de datos). Se basa ahora en segmento_lifetime
--- y en cuántos meses le quedan de contrato: un socio nuevo a punto de
--- terminar su contrato es, por lógica de negocio, el de mayor riesgo.
 -- ---------------------------------------------------------
 SELECT
     fm.id_socio,
@@ -107,12 +76,6 @@ WHERE fm.churn = 0;
 
 -- ---------------------------------------------------------
 -- QUERY 6 — Socios con más meses de contrato restante que la
--- media de su propio tipo de contrato (SUBCONSULTA)
---
--- NOTA: reformulada. La versión original usaba gasto_adicional
--- (eliminada por el bug de datos). Se usa meses_fin_contrato como
--- proxy de "valor futuro pendiente": socios que aún tienen mucho
--- contrato por delante en relación a su propio segmento de contrato.
 -- ---------------------------------------------------------
 SELECT
     fm.id_socio,
@@ -132,12 +95,6 @@ LIMIT 15;
 
 -- ---------------------------------------------------------
 -- QUERY 7 — Perfiles con tasa de abandono por encima de la
--- media global (SUBCONSULTA dentro de un FROM)
---
--- NOTA: reformulada. La versión original agrupaba por segmento y
--- tendencia de frecuencia (eliminadas por el bug de datos). Se agrupa
--- ahora por asistencia a clases y tipo de contrato, ambas columnas
--- 100% fiables, manteniendo la misma lógica de subconsulta.
 -- ---------------------------------------------------------
 SELECT *
 FROM (
@@ -206,12 +163,6 @@ JOIN dim_actividad da ON fm.id_actividad = da.id_actividad;
 -- ---------------------------------------------------------
 -- KPI 4 — Socios activos en riesgo por antigüedad y contrato a punto
 -- de vencer
---
--- NOTA: reformulado. El KPI original medía "gasto adicional en riesgo"
--- usando tendencia_frecuencia (eliminada por el bug de datos). Se
--- redefine como el número de socios activos, nuevos, a los que les
--- queda 1 mes o menos de contrato: el perfil de mayor riesgo según
--- la Query 5.
 -- ---------------------------------------------------------
 SELECT
     COUNT(*) AS socios_en_riesgo_alto
@@ -223,11 +174,6 @@ WHERE fm.churn = 0
 
 -- ---------------------------------------------------------
 -- KPI 5 — Coste estimado del abandono y ahorro potencial
---
--- IMPORTANTE: se asume una cuota mensual de 30€ como supuesto de
--- negocio razonado (NO es un dato del dataset original). El coste
--- de cada baja = 30€ x meses que le quedaban de contrato.
--- El ahorro potencial asume recuperar al 20% de esos socios.
 -- ---------------------------------------------------------
 SELECT
     SUM(churn)                                                   AS total_bajas,

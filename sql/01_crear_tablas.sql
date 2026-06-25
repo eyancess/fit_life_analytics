@@ -1,31 +1,4 @@
--- =========================================================
--- FitLife Analytics — Modelo Estrella
--- Script 1: Creación de las tablas (dimensiones + hechos)
--- =========================================================
--- Cómo usar este script:
--- 1. Abre DBeaver y conéctate a la base de datos fitlife_analytics.
--- 2. Abre un SQL Editor nuevo (SQL Editor -> New SQL Script).
--- 3. Pega todo este contenido.
--- 4. Ejecuta el script completo (botón de "Execute SQL Script", el de
---    dos flechas, o Alt+X / Cmd+X según tu DBeaver).
--- 5. Cuando termine, en el árbol de la izquierda haz clic derecho sobre
---    fitlife_analytics -> Refresh, y deberías ver las 5 tablas vacías.
--- =========================================================
 
--- En PostgreSQL no existe la instrucción USE. Antes de ejecutar este
--- script, asegúrate de que tu conexión en DBeaver está apuntando a la
--- base de datos fitlife_analytics (lo eliges al crear o seleccionar la
--- conexión, no dentro del propio script SQL).
---
--- Si todavía no has creado la base de datos, ejecuta primero esto en
--- una conexión a la base de datos por defecto (postgres):
--- CREATE DATABASE fitlife_analytics;
--- Después, reconéctate o abre un nuevo SQL Editor ya sobre esa base
--- de datos antes de continuar con el resto de este script.
-
--- Si ya existían de un intento anterior, las borramos primero
--- (en este orden: la tabla de hechos antes que las dimensiones,
--- porque tiene claves foráneas que dependen de ellas)
 DROP TABLE IF EXISTS fact_membresia;
 DROP TABLE IF EXISTS dim_socio;
 DROP TABLE IF EXISTS dim_contrato;
@@ -66,12 +39,6 @@ CREATE TABLE dim_captacion (
 
 -- ---------------------------------------------------------
 -- 4. dim_actividad
--- NOTA: esta tabla se ha simplificado respecto a la versión inicial.
--- Las columnas segmento_frecuencia y tendencia_frecuencia se han
--- eliminado porque dependían de Avg_class_frequency_total y
--- Avg_class_frequency_current_month, afectadas por un bug de
--- exportación irreversible del CSV original de Kaggle (ver
--- business_case.md, apartado de limitaciones de datos).
 -- ---------------------------------------------------------
 CREATE TABLE dim_actividad (
     id_actividad           INT PRIMARY KEY,
@@ -80,11 +47,6 @@ CREATE TABLE dim_actividad (
 
 -- ---------------------------------------------------------
 -- 5. fact_membresia (tabla de hechos central)
--- NOTA: esta tabla ya NO incluye gasto_adicional, frecuencia_total,
--- frecuencia_mes ni variacion_frecuencia. Esas columnas dependían de
--- Avg_additional_charges_total y Avg_class_frequency_*, afectadas por
--- un bug de exportación irreversible del CSV original de Kaggle
--- (ver business_case.md, apartado de limitaciones de datos).
 -- ---------------------------------------------------------
 CREATE TABLE fact_membresia (
     id_socio               INT PRIMARY KEY,
@@ -107,11 +69,7 @@ CREATE TABLE fact_membresia (
 );
 
 -- ---------------------------------------------------------
--- Comprobación: deberían aparecer las 5 tablas, todas con 0 filas
--- (las llenamos en el siguiente paso con "Import Data" desde los CSV)
---
--- NOTA: SHOW TABLES no existe en PostgreSQL (es sintaxis de MySQL).
--- El equivalente en Postgres es consultar el catálogo information_schema.
+-- Comprobación
 -- ---------------------------------------------------------
 SELECT table_name
 FROM information_schema.tables
